@@ -22,13 +22,18 @@ class SupabaseService {
     final dayStr = date.toIso8601String().split('T').first;
 
     final res = await _client
-        .from('focus_sessions')
-        .select('success_count, total_minutes')
-        .eq('user_id', userId)
-        .eq('date', dayStr)
-        .maybeSingle();
+      .from('focus_sessions_summary')
+      .select()
+      .eq('user_id', userId)
+      .eq('date', dayStr)
+      .maybeSingle();
 
-    return res is Map<String, dynamic> ? res : null;
+    if (res == null) return null;
+    return {
+      'sum_success_count': res['sum_success_count'] ?? 0,
+      'sum_total_minutes':  res['sum_total_minutes']  ?? 0,
+    };
+
   }
 
   Future<int> fetchPointTotal(String userId) async {
@@ -37,8 +42,13 @@ class SupabaseService {
         .select('points, user_id');
 
     return res
-        .where((row) => row['user_id'] == userId)
-        .fold<int>(0, (sum, item) => sum + ((item['points'] ?? 0) as int));
+      .where((row) => row['user_id'] == userId)
+      // fold 제네릭 <int> 지정, 파라미터에 명시적 타입 추가
+      .fold<int>(
+        0,
+        (int sum, dynamic item) =>
+          sum + ((item['points'] ?? 0) as int),
+      );
   }
 
   Future<int> fetchPointForDay(String userId, DateTime date) async {
@@ -77,7 +87,7 @@ class SupabaseService {
         .eq('date', today);
 
     return res
-        .map((row) => (row['total_minutes'] ?? 0) as int)
-        .fold(0, (sum, item) => sum + item); // ✅ 타입 일치
+      .map((row) => (row['total_minutes'] ?? 0) as int)
+      .fold<int>(0, (int sum, dynamic p) => sum + (p as int));
   }
 }

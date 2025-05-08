@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/scheduler.dart';
 import 'focus_home_screen.dart';
+import 'package:lottie/lottie.dart';
 
 class FocusTimerScreen extends StatefulWidget {
   const FocusTimerScreen({super.key});
@@ -12,7 +13,7 @@ class FocusTimerScreen extends StatefulWidget {
 
 class _FocusTimerScreenState extends State<FocusTimerScreen>
     with SingleTickerProviderStateMixin {
-  Duration _duration = const Duration(minutes: 25);
+  Duration _duration = const Duration(minutes: 1);
   late final Duration _initialDuration;
   late final Stopwatch _stopwatch;
   late final Ticker _ticker;
@@ -122,7 +123,7 @@ class _FocusTimerScreenState extends State<FocusTimerScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfffef7e0),
+      backgroundColor: const Color(0xFFFFE7C4),
       appBar: AppBar(
         title: const Text("집중 타이머"),
         backgroundColor: Colors.orange.shade400,
@@ -132,11 +133,10 @@ class _FocusTimerScreenState extends State<FocusTimerScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // 고양이 응원 애니메이션 (추후 Lottie 교체 가능)
-            Image.asset('assets/animations/cat_idle.gif', height: 160),
-
-            const SizedBox(height: 24),
-
+            Lottie.asset(
+              'assets/animations/cat_new.json',
+              fit: BoxFit.cover, // 화면에 맞게 꽉 채움
+            ),
             // 타이머
             Text(
               _formatDuration(_duration),

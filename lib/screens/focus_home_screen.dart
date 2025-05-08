@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/supabase_service.dart';
 import '../widgets/calendar_with_stamp.dart';
-import '../widgets/cat_animation_widget.dart';
 import '../widgets/reward_popup.dart';
-import 'package:lottie/lottie.dart';
 
 class FocusHomeScreen extends StatefulWidget {
   const FocusHomeScreen({super.key});
@@ -71,17 +69,6 @@ class _FocusHomeScreenState extends State<FocusHomeScreen> {
     );
   }
 
-  Widget _buildCatAnimation() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Lottie.asset(
-        'assets/animations/nyang2.json',  // 너가 넣은 json 경로
-        width: 200,
-        height: 200,
-        repeat: true,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +97,7 @@ class _FocusHomeScreenState extends State<FocusHomeScreen> {
             onDaySelected: _onDaySelected,
           ),
           _buildDayDetail(),
-          _buildCatAnimation(),
-          _buildStartFocusButton(), // ← 요거 추가!
+          _buildStartFocusButton(),
           _buildRewardBanner(),
         ],
       ),
@@ -148,7 +134,7 @@ class _FocusHomeScreenState extends State<FocusHomeScreen> {
           const SizedBox(height: 4),
           if (_selectedFocusData != null)
             Text(
-              "✅ 집중 ${_selectedFocusData!['success_count']}회 (${_selectedFocusData!['total_minutes']}분)",
+              "✅ 집중 ${_selectedFocusData!['sum_success_count']}회 (${_selectedFocusData!['sum_total_minutes']}분)",
               style: const TextStyle(fontSize: 16),
             )
           else

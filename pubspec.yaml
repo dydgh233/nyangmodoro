@@ -12,6 +12,7 @@ dependencies:
   flutter_riverpod: ^2.3.6
   table_calendar: ^3.0.9
   supabase_flutter: ^1.10.25
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
